@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salud Mental - Blog y Citas</title>
+    <!-- Material Design Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Estilos -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-bottom: 50px;
+      }
+
+      header {
+        background-color: #6200ea;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      header img {
+        height: 50px;
+        vertical-align: middle;
+      }
+
+      main {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex-wrap: wrap; /* Permite el apilado en móviles */
+      }
+
+      .blog-section {
+        flex: 3;
+        margin-right: 20px;
+        text-align: center;
+      }
+
+      .blog-section h2 {
+        color: indigo;
+        margin-bottom: 30px;
+      }
+
+      .blog-post {
+        background: white;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .blog-post h2 {
+        margin-bottom: 10px;
+      }
+
+      .blog-post p {
+        margin-bottom: 10px;
+      }
+
+      .favorite-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        color: #ccc;
+      }
+
+      .favorite-icon.favorite {
+        color: #ff9800; /* Color naranja para favoritos */
+      }
+
+      /* Citas médicas */
+      .appointments-section {
+        flex: 1;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        min-width: 300px; /* Para garantizar espacio en pantallas pequeñas */
+      }
+
+      .appointments-section h2 {
+        margin-bottom: 10px;
+      }
+
+      .appointments-form input[type="datetime-local"] {
+        padding: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .appointments-form button {
+        padding: 10px 20px;
+        background-color: #6200ea;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .appointments-form button:hover {
+        background-color: #3700b3;
+      }
+
+      .appointments-list {
+        margin-top: 20px;
+      }
+
+      .appointments-list li {
+        list-style-type: none;
+        padding: 10px;
+        background-color: #fff;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .appointment-text {
+        flex: 1;
+      }
+
+      .appointment-actions {
+        margin-left: 10px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .appointment-actions .material-icons {
+        cursor: pointer;
+        color: #6200ea;
+      }
+
+      .appointment-actions .material-icons:hover {
+        color: #3700b3;
+      }
+
+      /* Footer fijo */
+      footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #6200ea;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        main {
+          flex-direction: column;
+        }
+
+        .appointments-section {
+          order: 0; /* Se muestra primero en móviles */
+          margin-bottom: 20px;
+        }
+
+        .blog-section {
+          order: 1; /* Se muestra después en móviles */
+          margin-right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <img src="saludmental.png" alt="Logo Salud Mental" />
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+      <!-- Citas Médicas -->
+      <section class="appointments-section">
+        <h2>Registrar Cita Médica</h2>
+
+        <div class="appointments-form">
+          <input type="datetime-local" id="appointmentDate" />
+          <button onclick="addAppointment()">Añadir Cita</button>
+        </div>
+
+        <ul class="appointments-list" id="appointmentsList"></ul>
+      </section>
+
+      <!-- Blog -->
+      <section class="blog-section">
+        <h2>Artículos de Salud Mental</h2>
+
+        <div class="blog-post" data-id="1">
+          <h2>La importancia de cuidar la salud mental</h2>
+          <p>
+            La salud mental es un aspecto vital de nuestra vida diaria. Mantener
+            un equilibrio emocional y psicológico puede mejorar
+            significativamente nuestra calidad de vida.
+          </p>
+          <span class="material-icons favorite-icon" onclick="toggleFavorite(1)"
+            >star</span
+          >
+        </div>
+
+        <div class="blog-post" data-id="2">
+          <h2>Técnicas para reducir el estrés</h2>
+          <p>
+            El estrés puede ser un factor que afecte negativamente nuestra
+            salud. Aquí hay algunas técnicas que pueden ayudarte a reducirlo.
+          </p>
+          <span class="material-icons favorite-icon" onclick="toggleFavorite(2)"
+            >star</span
+          >
+        </div>
+
+        <div class="blog-post" data-id="3">
+          <h2>Cómo mejorar tu bienestar emocional</h2>
+          <p>
+            Mejorar el bienestar emocional es clave para una vida más plena.
+            Aquí te ofrecemos algunos consejos para lograrlo.
+          </p>
+          <span class="material-icons favorite-icon" onclick="toggleFavorite(3)"
+            >star</span
+          >
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer fijo -->
+    <footer>OM2024</footer>
+
+    <!-- Scripts -->
+    <script>
+      let editIndex = null;
+
+      // Función para añadir una cita o actualizar una existente
+      function addAppointment() {
+        const appointmentInput = document.getElementById("appointmentDate");
+        const appointmentValue = appointmentInput.value;
+        if (appointmentValue) {
+          let appointments =
+            JSON.parse(localStorage.getItem("appointments")) || [];
+          if (editIndex === null) {
+            appointments.push(appointmentValue);
+          } else {
+            appointments[editIndex] = appointmentValue;
+            editIndex = null;
+          }
+          localStorage.setItem("appointments", JSON.stringify(appointments));
+          renderAppointments();
+          appointmentInput.value = "";
+        }
+      }
+
+      // Función para renderizar las citas guardadas
+      function renderAppointments() {
+        const appointmentsList = document.getElementById("appointmentsList");
+        const appointments =
+          JSON.parse(localStorage.getItem("appointments")) || [];
+        appointmentsList.innerHTML = "";
+        appointments.forEach((appointment, index) => {
+          const li = document.createElement("li");
+
+          const appointmentText = document.createElement("div");
+          appointmentText.classList.add("appointment-text");
+          appointmentText.textContent = appointment;
+
+          const actions = document.createElement("div");
+          actions.classList.add("appointment-actions");
+
+          const editIcon = document.createElement("span");
+          editIcon.classList.add("material-icons");
+          editIcon.textContent = "edit";
+          editIcon.onclick = () => editAppointment(index);
+
+          const deleteIcon = document.createElement("span");
+          deleteIcon.classList.add("material-icons");
+          deleteIcon.textContent = "delete";
+          deleteIcon.onclick = () => deleteAppointment(index);
+
+          actions.appendChild(editIcon);
+          actions.appendChild(deleteIcon);
+
+          li.appendChild(appointmentText);
+          li.appendChild(actions);
+
+          appointmentsList.appendChild(li);
+        });
+      }
+
+      // Función para editar una cita
+      function editAppointment(index) {
+        const appointments =
+          JSON.parse(localStorage.getItem("appointments")) || [];
+        const appointmentInput = document.getElementById("appointmentDate");
+        appointmentInput.value = appointments[index];
+        editIndex = index;
+      }
+
+      // Función para eliminar una cita
+      function deleteAppointment(index) {
+        let appointments =
+          JSON.parse(localStorage.getItem("appointments")) || [];
+        appointments.splice(index, 1);
+        localStorage.setItem("appointments", JSON.stringify(appointments));
+        renderAppointments();
+      }
+
+      // Función para manejar el estado de favoritos
+      function toggleFavorite(id) {
+        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        const index = favorites.indexOf(id);
+        const icon = document.querySelector(
+          `.blog-post[data-id="${id}"] .favorite-icon`
+        );
+
+        if (index > -1) {
+          favorites.splice(index, 1); // Eliminar de favoritos
+          icon.classList.remove("favorite");
+        } else {
+          favorites.push(id); // Añadir a favoritos
+          icon.classList.add("favorite");
+        }
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+      }
+
+      // Función para cargar el estado de favoritos al iniciar
+      function loadFavorites() {
+        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        favorites.forEach((id) => {
+          const icon = document.querySelector(
+            `.blog-post[data-id="${id}"] .favorite-icon`
+          );
+          if (icon) {
+            icon.classList.add("favorite");
+          }
+        });
+      }
+
+      // Cargar las citas y favoritos cuando se carga la página
+      window.onload = function () {
+        renderAppointments();
+        loadFavorites();
+      };
+    </script>
+  </body>
+</html>
